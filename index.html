@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Doğum Günün Kutlu Olsun</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            touch-action: none;
+            /* Göz yormayan sabit pastel arkaplan */
+            background-color: #f0f4f8; 
+        }
+        canvas {
+            display: block;
+            position: absolute;
+            top: 0; left: 0;
+            z-index: 2; 
+            pointer-events: none; 
+        }
+        #overlay {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(17, 17, 17, 0.95); 
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            transition: opacity 1s ease-out;
+        }
+        #basla-butonu {
+            width: 150px;
+            height: 150px;
+            background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 70%);
+            border-radius: 50%;
+            margin-bottom: 20px;
+            box-shadow: 0 0 30px #fff;
+            cursor: pointer;
+            animation: pulse 1.5s infinite;
+        }
+        #start-msg {
+            color: #fff;
+            font-size: 1.2rem;
+            text-align: center;
+            text-shadow: 0 0 10px #fff;
+            padding: 0 20px;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.1); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        #bday-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            text-align: center;
+            
+            /* RGB geçişli yazı efekti */
+            background: linear-gradient(270deg, #ff416c, #ff4b2b, #8a2387, #e94057, #f27121);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            
+            font-size: 3.5rem;
+            font-weight: 900;
+            line-height: 1.4;
+            filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.15));
+            
+            opacity: 0;
+            transform: translate(-50%, -30%);
+            transition: opacity 1s 1s, transform 1s 1s;
+            z-index: 20;
+            padding: 0 15px;
+            box-sizing: border-box;
+            pointer-events: none;
+            
+            animation: renkAksin 6s ease infinite;
+        }
+
+        @media (max-width: 768px) {
+            #bday-text {
+                font-size: 2.5rem;
+            }
+        }
+
+        @keyframes renkAksin {
+            0% { background-position: 0% 50% }
+            50% { background-position: 100% 50% }
+            100% { background-position: 0% 50% }
+        }
+
+        .bouncing-gif {
+            position: absolute;
+            width: 120px; 
+            height: auto;
+            z-index: 10;
+            display: none; 
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.5);
+            pointer-events: none; 
+        }
+
+        /* YOUTUBE KANDIRMACA ALANI: Video ekranda var ama görünmez ve en arkada */
+        #yt-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: -10;
+            opacity: 0.01;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="overlay">
+        <div id="basla-butonu"></div>
+        <div id="start-msg">Hediyen İçin Dokun</div>
+    </div>
+
+    <div id="bday-text">İYİ Kİ DOĞDUN İYİ Kİ VARSIN<br>SEÇİL</div>
+
+    <img class="bouncing-gif" src="https://media1.tenor.com/m/Cr1br7CEaOIAAAAd/stupid-hamster-hamster-meme.gif" alt="Stupid Hampter">
+    <img class="bouncing-gif" src="https://media1.tenor.com/m/1o5jVnGKaP0AAAAd/hampter-hamster-meme.gif" alt="Hampter Tomato">
+    <img class="bouncing-gif" src="https://media1.tenor.com/m/zSP755QKmHIAAAAd/hamster-tik-tok-hamster-meme.gif" alt="TikTok Hampter">
+    <img class="bouncing-gif" src="https://media.tenor.com/VZE94_w6YqcAAAAj/hamtaro-hamster.gif" alt="Hamtaro">
+    <img class="bouncing-gif" src="https://media1.tenor.com/m/QY7xvYc47o8AAAAd/uludag-kedi.gif" alt="Uludağ Kedi">
+    <img class="bouncing-gif" src="https://media1.tenor.com/m/JhsnQxEuPgIAAAAC/cute-mignon.gif" alt="Cute Mignon">
+    <img class="bouncing-gif" src="https://media1.tenor.com/m/8JSTqLq5ot8AAAAC/cute-blinking.gif" alt="Cute Blinking">
+    <img class="bouncing-gif" src="https://media.tenor.com/En3glwqbY1sAAAAi/happy-fun.gif" alt="Happy Fun">
+    <img class="bouncing-gif" src="https://media1.tenor.com/m/JGTRE8YySC0AAAAd/cat-birthday.gif" alt="Cat Birthday">
+    <img class="bouncing-gif" src="https://media1.tenor.com/m/xEqnFKM8KLUAAAAd/goofy-smile-goofy.gif" alt="Goofy Smile">
+    <img class="bouncing-gif" src="https://media1.tenor.com/m/Nd8cPBCCEuYAAAAd/patrick-goofy.gif" alt="Patrick Goofy">
+    <img class="bouncing-gif" src="https://media1.tenor.com/m/ms1p3_4L_mwAAAAd/patrick-patrick-star.gif" alt="Patrick Star">
+    <img class="bouncing-gif" src="https://media1.tenor.com/m/s1UyP8iWWk8AAAAd/mr-m.gif" alt="Mr. M">
+    <img class="bouncing-gif" src="https://media1.tenor.com/m/Z9htLCs2dKcAAAAd/shitpost.gif" alt="Shitpost">
+    <img class="bouncing-gif" src="https://media.tenor.com/dwRmHdu6vHMAAAAj/haleys-ouo.gif" alt="Haley ouo">
+    <img class="bouncing-gif" src="https://media.tenor.com/9vkd-CrRbEEAAAAj/turkey-t%C3%BCrkiye.gif" alt="Turkey">
+    <img class="bouncing-gif" src="https://media1.tenor.com/m/fZ8UcwT3T2gAAAAd/the-hub.gif" alt="The Hub">
+
+    <div id="yt-container"></div>
+
+    <canvas id="canvas"></canvas>
+
+    <script>
+        const overlay = document.getElementById('overlay');
+        const startBtn = document.getElementById('basla-butonu');
+        const bdayText = document.getElementById('bday-text');
+        const ytContainer = document.getElementById('yt-container');
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const gifs = document.querySelectorAll('.bouncing-gif');
+
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // Parti sembolleri
+        const partySymbols = ['✨', '💖', '🎉', '🎁', '🎈', '⭐']; 
+        const particles = [];
+        
+        class PartyParticle {
+            constructor() {
+                this.reset();
+                this.y = Math.random() * canvas.height; 
+            }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = canvas.height + 50;
+                this.vx = (Math.random() - 0.5) * 1.5;
+                this.vy = -Math.random() * 2 - 0.5;
+                this.symbol = partySymbols[Math.floor(Math.random() * partySymbols.length)];
+                this.fontSize = Math.random() * 15 + 10;
+                this.opacity = Math.random() * 0.4 + 0.2;
+                this.rotation = Math.random() * 360;
+                this.rotationSpeed = (Math.random() - 0.5) * 1;
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.rotation += this.rotationSpeed;
+                if (this.y < -50) this.reset();
+            }
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation * Math.PI / 180);
+                ctx.font = `${this.fontSize}px serif`;
+                ctx.fillStyle = `rgba(233, 64, 87, ${this.opacity})`; 
+                ctx.fillText(this.symbol, 0, 0);
+                ctx.restore();
+            }
+        }
+
+        for (let i = 0; i < 30; i++) particles.push(new PartyParticle());
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animateParticles);
+        }
+
+        let gifData = [];
+        function initGifs() {
+            gifs.forEach((img, index) => {
+                img.style.display = 'block';
+                gifData.push({
+                    el: img,
+                    x: Math.random() * (window.innerWidth - 120),
+                    y: Math.random() * (window.innerHeight - 120),
+                    vx: (Math.random() > 0.5 ? 1 : -1) * (Math.random() * 2 + 1), 
+                    vy: (Math.random() > 0.5 ? 1 : -1) * (Math.random() * 2 + 1),
+                    width: 120,
+                    height: 120 
+                });
+            });
+        }
+
+        function bounceGifs() {
+            gifData.forEach(g => {
+                g.x += g.vx;
+                g.y += g.vy;
+
+                if (g.x <= 0 || g.x + g.el.offsetWidth >= window.innerWidth) {
+                    g.vx *= -1;
+                    g.x = g.x <= 0 ? 0 : window.innerWidth - g.el.offsetWidth;
+                }
+                if (g.y <= 0 || g.y + g.el.offsetHeight >= window.innerHeight) {
+                    g.vy *= -1;
+                    g.y = g.y <= 0 ? 0 : window.innerHeight - g.el.offsetHeight;
+                }
+
+                g.el.style.left = g.x + 'px';
+                g.el.style.top = g.y + 'px';
+            });
+            requestAnimationFrame(bounceGifs);
+        }
+
+        startBtn.addEventListener('click', () => {
+            overlay.style.display = 'none'; 
+            
+            bdayText.style.opacity = '1'; 
+            bdayText.style.transform = 'translate(-50%, -50%)';
+            
+            // YOUTUBE VİDEOSUNU OLUŞTUR VE OYNAT
+            ytContainer.innerHTML = '<iframe width="300" height="300" src="https://www.youtube.com/embed/aPEDsV5Qf0w?autoplay=1&controls=0&showinfo=0&autohide=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+
+            animateParticles(); 
+            
+            setTimeout(() => {
+                initGifs(); 
+                bounceGifs(); 
+            }, 1000);
+        });
+
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        });
+
+    </script>
+</body>
+</html>
