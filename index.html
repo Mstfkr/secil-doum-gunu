@@ -107,14 +107,14 @@
             pointer-events: none; 
         }
 
-        /* YOUTUBE KANDIRMACA ALANI: Video ekranda var ama görünmez ve en arkada */
-        #yt-container {
+        /* YOUTUBE GİZLİ OYNATICI ALANI */
+        #yt-player {
             position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: -10;
-            opacity: 0.01;
+            top: -9999px;
+            left: -9999px;
+            width: 1px;
+            height: 1px;
+            opacity: 0;
             pointer-events: none;
         }
     </style>
@@ -126,7 +126,7 @@
         <div id="start-msg">Hediyen İçin Dokun</div>
     </div>
 
-    <div id="bday-text">İYİ Kİ DOĞDUN İYİ Kİ VARSIN<br>SEÇİL</div>
+    <div id="bday-text">İYİ Kİ DOĞDUN İYİ Kİ VARSIN<br>SEÇİL!</div>
 
     <img class="bouncing-gif" src="https://media1.tenor.com/m/Cr1br7CEaOIAAAAd/stupid-hamster-hamster-meme.gif" alt="Stupid Hampter">
     <img class="bouncing-gif" src="https://media1.tenor.com/m/1o5jVnGKaP0AAAAd/hampter-hamster-meme.gif" alt="Hampter Tomato">
@@ -146,15 +146,42 @@
     <img class="bouncing-gif" src="https://media.tenor.com/9vkd-CrRbEEAAAAj/turkey-t%C3%BCrkiye.gif" alt="Turkey">
     <img class="bouncing-gif" src="https://media1.tenor.com/m/fZ8UcwT3T2gAAAAd/the-hub.gif" alt="The Hub">
 
-    <div id="yt-container"></div>
+    <div id="yt-player"></div>
 
     <canvas id="canvas"></canvas>
+
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script>
+        let ytPlayer;
+        let ytReady = false;
+
+        function onYouTubeIframeAPIReady() {
+            ytPlayer = new YT.Player('yt-player', {
+                height: '1',
+                width: '1',
+                videoId: 'aPEDsV5Qf0w', // Seçil Şarkısı ID'si
+                playerVars: {
+                    'playsinline': 1, // iOS/Safari için kritik ayar
+                    'controls': 0,
+                    'disablekb': 1,
+                    'rel': 0
+                },
+                events: {
+                    'onReady': function(event) {
+                        ytReady = true;
+                        // Video yüklendiğinde sesi fulleyip sessize alma ihtimalini kaldırıyoruz
+                        event.target.unMute();
+                        event.target.setVolume(100);
+                    }
+                }
+            });
+        }
+    </script>
 
     <script>
         const overlay = document.getElementById('overlay');
         const startBtn = document.getElementById('basla-butonu');
         const bdayText = document.getElementById('bday-text');
-        const ytContainer = document.getElementById('yt-container');
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
         const gifs = document.querySelectorAll('.bouncing-gif');
@@ -162,7 +189,7 @@
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
-        // Parti sembolleri
+        // Parti sembolleri (Biyoloji silindi)
         const partySymbols = ['✨', '💖', '🎉', '🎁', '🎈', '⭐']; 
         const particles = [];
         
@@ -243,14 +270,19 @@
             requestAnimationFrame(bounceGifs);
         }
 
+        // TIKLANDIĞI AN YOUTUBE MÜZİĞİNİ ZORLA BAŞLAT
         startBtn.addEventListener('click', () => {
             overlay.style.display = 'none'; 
             
             bdayText.style.opacity = '1'; 
             bdayText.style.transform = 'translate(-50%, -50%)';
             
-            // YOUTUBE VİDEOSUNU OLUŞTUR VE OYNAT
-            ytContainer.innerHTML = '<iframe width="300" height="300" src="https://www.youtube.com/embed/aPEDsV5Qf0w?autoplay=1&controls=0&showinfo=0&autohide=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>';
+            // Eğer YouTube API hazırsa müziği başlat
+            if (ytReady && ytPlayer && typeof ytPlayer.playVideo === 'function') {
+                ytPlayer.playVideo();
+            } else {
+                console.log("YouTube Player hazır değil.");
+            }
 
             animateParticles(); 
             
