@@ -11,7 +11,6 @@
             overflow: hidden;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             touch-action: none;
-            /* Göz yormayan sabit pastel arkaplan */
             background-color: #f0f4f8; 
         }
         canvas {
@@ -61,18 +60,14 @@
             left: 50%;
             width: 100%;
             text-align: center;
-            
-            /* RGB geçişli yazı efekti */
             background: linear-gradient(270deg, #ff416c, #ff4b2b, #8a2387, #e94057, #f27121);
             background-size: 400% 400%;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            
             font-size: 3.5rem;
             font-weight: 900;
             line-height: 1.4;
             filter: drop-shadow(0px 4px 6px rgba(0,0,0,0.15));
-            
             opacity: 0;
             transform: translate(-50%, -30%);
             transition: opacity 1s 1s, transform 1s 1s;
@@ -80,7 +75,6 @@
             padding: 0 15px;
             box-sizing: border-box;
             pointer-events: none;
-            
             animation: renkAksin 6s ease infinite;
         }
 
@@ -107,14 +101,15 @@
             pointer-events: none; 
         }
 
-        /* YOUTUBE GİZLİ OYNATICI ALANI */
+        /* İŞTE ANDROİD'İ KANDIRDIĞIMIZ YER - Video boyutu büyük ama görünmez */
         #yt-player {
-            position: absolute;
-            top: -9999px;
-            left: -9999px;
-            width: 1px;
-            height: 1px;
-            opacity: 0;
+            position: fixed;
+            bottom: 0;
+            right: 0;
+            width: 300px;
+            height: 300px;
+            opacity: 0.001;
+            z-index: -999;
             pointer-events: none;
         }
     </style>
@@ -157,19 +152,21 @@
 
         function onYouTubeIframeAPIReady() {
             ytPlayer = new YT.Player('yt-player', {
-                height: '1',
-                width: '1',
-                videoId: 'aPEDsV5Qf0w', // Seçil Şarkısı ID'si
+                height: '300', // ANDROID KESMESİN DİYE BÜYÜTTÜK
+                width: '300',  // ANDROID KESMESİN DİYE BÜYÜTTÜK
+                videoId: 'aPEDsV5Qf0w', // Seçil Şarkısı
                 playerVars: {
-                    'playsinline': 1, // iOS/Safari için kritik ayar
+                    'playsinline': 1, // Mobil uyum
                     'controls': 0,
                     'disablekb': 1,
-                    'rel': 0
+                    'rel': 0,
+                    'fs': 0,
+                    'modestbranding': 1
                 },
                 events: {
                     'onReady': function(event) {
                         ytReady = true;
-                        // Video yüklendiğinde sesi fulleyip sessize alma ihtimalini kaldırıyoruz
+                        // Video hazır olunca ses kontrolünü al
                         event.target.unMute();
                         event.target.setVolume(100);
                     }
@@ -189,7 +186,6 @@
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
 
-        // Parti sembolleri (Biyoloji silindi)
         const partySymbols = ['✨', '💖', '🎉', '🎁', '🎈', '⭐']; 
         const particles = [];
         
@@ -270,7 +266,6 @@
             requestAnimationFrame(bounceGifs);
         }
 
-        // TIKLANDIĞI AN YOUTUBE MÜZİĞİNİ ZORLA BAŞLAT
         startBtn.addEventListener('click', () => {
             overlay.style.display = 'none'; 
             
@@ -281,7 +276,7 @@
             if (ytReady && ytPlayer && typeof ytPlayer.playVideo === 'function') {
                 ytPlayer.playVideo();
             } else {
-                console.log("YouTube Player hazır değil.");
+                console.log("YouTube Player hazır değil kanka, interneti kontrol et");
             }
 
             animateParticles(); 
